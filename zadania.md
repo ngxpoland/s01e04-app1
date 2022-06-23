@@ -17,6 +17,6 @@
  - [x] Komunikat + refresh (refresh niepotrzebny!)
 
 ### Zadanie 4: Potwierdzenie usunięcia klienta
- - [ ] Dialog w stylu: Czy na pewno chcesz usunąć użytkownika ...? TAK NIE
- - [ ] Użycie metody deleteClient z clientService
- - [ ] Komunikat + refresh
+ - [x] Dialog w stylu: Czy na pewno chcesz usunąć klienta ...? TAK NIE
+ - [x] Użycie metody deleteClient z clientService
+ - [x] Komunikat + refresh

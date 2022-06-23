@@ -5,6 +5,8 @@ import { APIStatus } from 'src/app/models/apiStatus';
 import { ClientService } from 'src/app/services/Client/client.service';
 import { ClientsEditOrNewComponent } from '../clients-new/clients-edit-or-new.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { YesNoDialogData } from 'src/app/models/yesNoDialogData';
+import { YesNoDialogComponent } from '../yes-no-dialog/yes-no-dialog.component';
 
 @Component({
   selector: 'app-clients-list',
@@ -75,9 +77,9 @@ export class ClientsListComponent implements OnInit {
       return;
     }
     this.dialogRef = this.dialog.open(
-      ClientsEditOrNewComponent, 
+      ClientsEditOrNewComponent,
       {
-        width: '100%', 
+        width: '100%',
         data: client
       }
     );
@@ -96,6 +98,32 @@ export class ClientsListComponent implements OnInit {
     });
   }
 
+  openDeleteDialog(client: Client) {
+    const yesNoData: YesNoDialogData = {
+      title: 'Pytanie',
+      content: 'Czy na pewno chesz usunąć klienta "' + client.name + ' ' + client.surname + '"?'
+    }
+    this.dialogRef = this.dialog.open(
+      YesNoDialogComponent,
+      {
+        width: '100%',
+        data: yesNoData
+      }
+    )
+    this.dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.clientService.deleteClient(client).subscribe((status: APIStatus) => {
+          if (status.status === 0) {
+            this.showNotification('Klient usunięty.');
+            this.ngOnInit();
+          } else {
+            this.showNotification('Uwaga! Nie udało się usunąć klienta!', 10);
+          }
+        });
+      }
+    });
+  }
+
   public handleAdd(): void {
     this.openAddDialog();
   }
@@ -107,8 +135,8 @@ export class ClientsListComponent implements OnInit {
   }
 
   public handleDelete(): void {
-    //alert('Not implemented!');
-    console.log(this.clientSelection);
+    const client = this.clientSelection[0];
+    this.openDeleteDialog(client);
   }
 
   public checkboxHandler(event: any, row: any): void {
