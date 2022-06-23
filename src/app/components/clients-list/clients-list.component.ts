@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Client } from 'src/app/models/client';
 import { APIStatus } from 'src/app/models/apiStatus';
 import { ClientService } from 'src/app/services/Client/client.service';
-import { ClientsNewComponent } from '../clients-new/clients-new.component';
+import { ClientsEditOrNewComponent } from '../clients-new/clients-edit-or-new.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -52,16 +52,9 @@ export class ClientsListComponent implements OnInit {
 
   openAddDialog() {
     this.dialogRef = this.dialog.open(
-      ClientsNewComponent, 
+      ClientsEditOrNewComponent, 
       {
-        width: '100%', 
-        data: { 
-          id: 0, 
-          name: '', 
-          surname: '', 
-          email: '', 
-          phone: ''
-        }
+        width: '100%',
       }
     );
     this.dialogRef.afterClosed().subscribe((result: Client) => {
@@ -69,8 +62,35 @@ export class ClientsListComponent implements OnInit {
       if (result) {
         this.clientService.postClients([result]).subscribe((status: APIStatus) => {
           console.log('status: ', status);
-          this.showSuccessNotification();
+          this.showNotification();
           this.ngOnInit();
+        });
+      }
+    });
+  }
+
+  openEditDialog(client: Client) {
+    if (this.clientSelection.length === 0) {
+      this.showNotification('Uwaga! Nie zaznaczyłeś klienta do edycji.');
+      return;
+    }
+    this.dialogRef = this.dialog.open(
+      ClientsEditOrNewComponent, 
+      {
+        width: '100%', 
+        data: client
+      }
+    );
+    this.dialogRef.afterClosed().subscribe((result: Client) => {
+      console.log('The dialog was closed', result);
+      if (result) {
+        this.clientService.putClient(result).subscribe((status: APIStatus) => {
+          console.log('status: ', status);
+          if (status.status === 0) {
+            this.showNotification();
+          } else {
+            this.showNotification('Uwaga! Nie udało się zapisać danych!', 10);
+          }
         });
       }
     });
@@ -81,12 +101,14 @@ export class ClientsListComponent implements OnInit {
   }
 
   public handleEdit(): void {
-    const str = JSON.stringify(this.clientSelection);
-    alert('Edytowanie tych elementów: '+str);
+    //const str = JSON.stringify(this.clientSelection);
+    this.openEditDialog(this.clientSelection[0]);
+    //alert('Edytowanie tych elementów: '+str);
   }
 
   public handleDelete(): void {
-    alert('Not implemented!');
+    //alert('Not implemented!');
+    console.log(this.clientSelection);
   }
 
   public checkboxHandler(event: any, row: any): void {
@@ -98,9 +120,9 @@ export class ClientsListComponent implements OnInit {
     console.log(this.clientSelection);
   }
 
-  public showSuccessNotification(): void {
-    this.snackBar.open('Pomyślnie zapisano dane', 'OK', {
-      duration: 2500,
+  public showNotification(msg: string = 'Pomyślnie zapisano dane', timeout: number = 2.5): void {
+    this.snackBar.open(msg, 'OK', {
+      duration: 1000 * timeout,
     });
   }
 

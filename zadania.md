@@ -12,9 +12,9 @@
  - [x] Wykonać refresh listy
 
 ### Zadanie 3: Edycja istniejącego klienta
- - [ ] Refactor formularza dodawania nowego klienta, nowa funkcjonalność - możliwości edycji istniejącego klienta
- - [ ] Użycie metody putClient z clientService do aktualizacji danych na serwerze (przykład wywołania jest w clients-list.component.ts w komentarzu)
- - [ ] Komunikat + refresh
+ - [x] Refactor formularza dodawania nowego klienta, nowa funkcjonalność - możliwości edycji istniejącego klienta
+ - [x] Użycie metody putClient z clientService do aktualizacji danych na serwerze (przykład wywołania jest w clients-list.component.ts w komentarzu)
+ - [x] Komunikat + refresh (refresh niepotrzebny!)
 
 ### Zadanie 4: Potwierdzenie usunięcia klienta
  - [ ] Dialog w stylu: Czy na pewno chcesz usunąć użytkownika ...? TAK NIE

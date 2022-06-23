@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClientsNewComponent } from './components/clients-new/clients-new.component';
+import { ClientsEditOrNewComponent } from './components/clients-new/clients-edit-or-new.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,7 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppComponent,
     ClientsListComponent,
     ToolbarComponent,
-    ClientsNewComponent,
+    ClientsEditOrNewComponent,
   ],
   imports: [
     BrowserModule,
