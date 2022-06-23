@@ -13,13 +13,15 @@ export class ClientsNewComponent implements OnInit {
     id: 0,
     name: '',
     surname: '',
-    email: ''
+    email: '',
+    phone: ''
   };
 
   formGroup = new FormGroup({
     name: new FormControl(),
     surname: new FormControl(),
     email: new FormControl(),
+    phone: new FormControl(),
   });
 
   constructor(
@@ -37,6 +39,7 @@ export class ClientsNewComponent implements OnInit {
     this.client.name = this.formGroup.get('name')?.value;
     this.client.surname = this.formGroup.get('surname')?.value;
     this.client.email = this.formGroup.get('email')?.value;
+    this.client.phone = this.formGroup.get('phone')?.value;
   }
 
   cancel() {
