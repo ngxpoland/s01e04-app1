@@ -4,6 +4,7 @@ import { Client } from 'src/app/models/client';
 import { APIStatus } from 'src/app/models/apiStatus';
 import { ClientService } from 'src/app/services/Client/client.service';
 import { ClientsNewComponent } from '../clients-new/clients-new.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-clients-list',
@@ -19,7 +20,8 @@ export class ClientsListComponent implements OnInit {
 
   constructor(
     public clientService: ClientService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -67,7 +69,8 @@ export class ClientsListComponent implements OnInit {
       if (result) {
         this.clientService.postClients([result]).subscribe((status: APIStatus) => {
           console.log('status: ', status);
-          // TODO: Dodać nieinwazyjny komunikat o pomyślnym dodaniu użytkownika i wykonać refresh listy
+          this.showSuccessNotification();
+          this.ngOnInit();
         });
       }
     });
@@ -93,6 +96,12 @@ export class ClientsListComponent implements OnInit {
       this.clientSelection.splice(this.clientSelection.indexOf(row), 1);
     }
     console.log(this.clientSelection);
+  }
+
+  public showSuccessNotification(): void {
+    this.snackBar.open('Pomyślnie zapisano dane', 'OK', {
+      duration: 2500,
+    });
   }
 
 }

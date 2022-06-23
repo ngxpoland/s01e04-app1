@@ -8,8 +8,8 @@
  - [x] Refactor istnejącego formularza, dodawaie pola telefon
 
 ### Zadanie 2: Komunikat po dodaniu elementu do listy i refresh listy
- - [ ] Dodać nieinwazyjny komunikat o pomyślnym dodaniu użytkownika (np. taki: https://material.angular.io/components/snack-bar/overview)
- - [ ] Wykonać refresh listy
+ - [x] Dodać nieinwazyjny komunikat o pomyślnym dodaniu użytkownika (np. taki: https://material.angular.io/components/snack-bar/overview)
+ - [x] Wykonać refresh listy
 
 ### Zadanie 3: Edycja istniejącego klienta
  - [ ] Refactor formularza dodawania nowego klienta, nowa funkcjonalność - możliwości edycji istniejącego klienta
