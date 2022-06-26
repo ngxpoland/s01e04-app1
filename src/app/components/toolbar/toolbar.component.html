@@ -1,11 +1,23 @@
 <mat-toolbar color="primary">
-  <button mat-raised-button color="primary" (click)="add()">
-        <mat-icon>add</mat-icon> Nowy
+  <ng-container *ngFor="let element of toolbarElements">
+    <!-- [disabled]="element.lambdaChecked()" -->
+    <button
+      *ngIf="(element.type === 'button')"
+      mat-raised-button
+      color="primary"
+      (click)="buttonClick(element.name)"
+      [disabled]="element.disabled"
+    >
+      <mat-icon>{{element.icon}}</mat-icon> {{element.name}}
     </button>
-    <button mat-raised-button color="primary" (click)="edit()">
-        <mat-icon>edit</mat-icon> Edytuj
-    </button>
-    <button mat-raised-button color="primary" (click)="delete()">
-        <mat-icon>delete</mat-icon> Usuń
-    </button>
+    <mat-checkbox
+      *ngIf="(element.type === 'checkbox')"
+      [(ngModel)]="element.checked"
+      [indeterminate]="element.indeterminate"
+      (change)="checkboxChange({ name: element.name, checkState: $event.checked})"
+    >
+      {{ (element.checkedName && element.checked) ? element.checkedName : (element.uncheckedName && !element.checked) ? element.uncheckedName : element.name }}
+    </mat-checkbox>
+  </ng-container>
+  
 </mat-toolbar>

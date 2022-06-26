@@ -17,6 +17,11 @@ export class ClientsEditOrNewComponent implements OnInit, AfterViewInit, AfterCo
     phone: ''
   };
 
+  clients: Client[] = [];
+  unsaved: boolean = false;
+  currentElement: number = 1;
+  allSelectedElement: number = 1;
+
   formTitle = 'Nowy klient';
 
   formGroup = new FormGroup({
@@ -29,15 +34,16 @@ export class ClientsEditOrNewComponent implements OnInit, AfterViewInit, AfterCo
 
   constructor(
     public dialogRef: MatDialogRef<ClientsEditOrNewComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Client,
+    @Inject(MAT_DIALOG_DATA) public data: Client[],
   ) { }
 
   ngAfterContentInit(): void {
     console.log("data: ", this.data);
-    if (this.data?.id > 0) {
-      this.client = this.data;
+    if (this.data) {
+      this.clients = JSON.parse(JSON.stringify(this.data));
+      this.allSelectedElement = this.clients.length;
       this.formTitle = 'Edycja danych klienta';
-      this.loadForm();
+      this.loadForm(1);
     }
   }
 
@@ -50,17 +56,23 @@ export class ClientsEditOrNewComponent implements OnInit, AfterViewInit, AfterCo
   }
 
   save() {
+    if (!this.formGroup.dirty) {
+      return;
+    }
+    this.unsaved = true;
     console.log(this.formGroup);
     this.client.id = this.formGroup.get('id')?.value;
     this.client.name = this.formGroup.get('name')?.value;
     this.client.surname = this.formGroup.get('surname')?.value;
     this.client.email = this.formGroup.get('email')?.value;
     this.client.phone = this.formGroup.get('phone')?.value;
+    this.clients[this.currentElement-1] = this.client;
   }
 
-  loadForm() {
+  loadForm(currentElement: number) {
+    this.client = this.clients[currentElement-1];
     this.formGroup.patchValue(
-      { 
+      {
         id: this.client.id,
         name: this.client.name,
         surname: this.client.surname,
@@ -72,6 +84,22 @@ export class ClientsEditOrNewComponent implements OnInit, AfterViewInit, AfterCo
 
   cancel() {
     this.dialogRef.close();
+  }
+
+  handleClickNext() {
+    this.save();
+    if (this.currentElement < this.allSelectedElement) {
+      this.currentElement++;
+      this.loadForm(this.currentElement);
+    }
+  }
+
+  handleClickPrev() {
+    this.save();
+    if (this.currentElement > 1) {
+      this.currentElement--;
+      this.loadForm(this.currentElement);
+    }
   }
 
 }

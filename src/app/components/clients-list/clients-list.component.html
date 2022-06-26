@@ -1,12 +1,22 @@
 <div class="clients-list--toolbar" [ngClass]="{'hidden': !isToolbarVisible}">
-    <app-toolbar (addEvent)="handleAdd()" (editEvent)="handleEdit()" (deleteEvent)="handleDelete()"></app-toolbar>
+  <app-toolbar
+    [toolbarElements]="[
+      { type: 'checkbox', indeterminate: !selectionIsEmpty, name: 'chkAll', checkedName: 'Odznacz wszystko', uncheckedName: 'Zaznacz wszystko'},
+      { type: 'button', icon: 'add', name: 'Dodaj'},
+      { type: 'button', icon: 'edit', name: 'Edytuj', disabled: selectionIsEmpty},
+      { type: 'button', icon: 'delete', name: 'Usuń', disabled: selectionIsEmpty}
+    ]"
+    [selectionCount]="0"
+    (buttonClickEvent)="buttonClickHandler($event)"
+    (checkboxChangeEvent)="checkboxChangeHandler($event)"
+  ></app-toolbar>
 </div>
 <!-- <table mat-table [dataSource]="(clientService.getClients() | async)?clientService.getClients():[]" class="mat-elevation-z8"> -->
 <table mat-table [dataSource]="clients" class="mat-elevation-z8">
   <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef> </th>
     <td mat-cell *matCellDef="let row">
-      <mat-checkbox (change)="checkboxHandler($event, row)" [disabled]="row.deleted"></mat-checkbox>
+      <mat-checkbox #chkBox (change)="checkboxHandler($event, row)" [disabled]="row.deleted"></mat-checkbox>
     </td>
   </ng-container>
   

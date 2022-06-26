@@ -1,4 +1,20 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+
+export interface ToolbarElement {
+  type: 'button'|'checkbox',
+  icon?: string,
+  name: string,
+  checkedName?: string,
+  uncheckedName?: string,
+  checked?: boolean,
+  disabled?: boolean,
+  indeterminate?: boolean,
+}
+
+export interface CheckboxChangeEvent {
+  name: string,
+  checkState: boolean,
+}
 
 @Component({
   selector: 'app-toolbar',
@@ -6,25 +22,21 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-  @Output() addEvent = new EventEmitter<void>();
-  @Output() editEvent = new EventEmitter<void>();
-  @Output() deleteEvent = new EventEmitter<void>();
+  @Input() toolbarElements: ToolbarElement[] | null = [];
+  @Input() selectionCount: number = 0;
+  @Output() buttonClickEvent = new EventEmitter<string>();
+  @Output() checkboxChangeEvent = new EventEmitter<CheckboxChangeEvent>();
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  buttonClick(name: string) {
+    this.buttonClickEvent.emit(name);
   }
 
-  add() {
-    this.addEvent.emit();
-  }
-
-  edit() {
-    this.editEvent.emit();
-  }
-
-  delete() {
-    this.deleteEvent.emit();
+  checkboxChange(arg: CheckboxChangeEvent) {
+    this.checkboxChangeEvent.emit(arg);
   }
 
 }
