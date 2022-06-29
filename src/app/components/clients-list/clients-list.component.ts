@@ -83,10 +83,10 @@ export class ClientsListComponent implements OnInit, AfterViewInit {
         width: '100%',
       }
     );
-    this.dialogRef.afterClosed().subscribe((result: Client) => {
+    this.dialogRef.afterClosed().subscribe((result: Client[]) => {
       console.log('The dialog was closed', result);
-      if (result) {
-        this.clientService.postClients([result]).subscribe((status: APIStatus) => {
+      if (result?.length > 0) {
+        this.clientService.postClients(result).subscribe((status: APIStatus) => {
           console.log('status: ', status);
           this.showNotification();
           this.ngOnInit();

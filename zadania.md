@@ -78,3 +78,6 @@ Podzadania:
 - [ ] Stworzenie komponentu: lista wizyt
 - [ ] Stworzenie komponentu: nowa wizyta / edycja istniejącej
 - [ ] Stworzenie dialogu potwierdzającego anulowania wizyty
+
+### Zadadnie 14: Błąd - formularz nowego klienta zapisuje pusty rekord w bazie
+- [x] Nie działa formularz dodawania nowego klienta
